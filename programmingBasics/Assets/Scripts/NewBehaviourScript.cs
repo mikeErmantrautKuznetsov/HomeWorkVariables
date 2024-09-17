@@ -34,11 +34,24 @@ public class NewBehaviourScript : MonoBehaviour
         int timeWait = 10;
         int minutes = 60;
         Console.WriteLine("Введите количество старушек ");
-        int grandMother = Convert.ToInt32(Console.ReadLine());
-        int waitTimeQueueWaits = grandMother * timeWait;
-        int waitTimeQueuehour = waitTimeQueueWaits / minutes;
-        float waitTimeQueueMinutes = waitTimeQueueWaits % minutes;
-        Console.WriteLine($"Вы должны отстоять в очереди " + (waitTimeQueuehour) + " часа " + (waitTimeQueueMinutes) + " минут ");
+        string clientHospital = Console.ReadLine();
+        if (int.TryParse(clientHospital, out int grandMother))
+        {
+            hospitalGrandmother(timeWait, minutes, grandMother);
+        }
+        else
+        {
+            Console.WriteLine("Чумба ты рехнулся? Харе балываться! Это больница!");
+            Console.ReadKey();
+        }
+
+        static void hospitalGrandmother(int timeWait, int minutes, int grandMother)
+        {
+            int waitTimeQueueWaits = grandMother * timeWait;
+            int waitTimeQueuehour = waitTimeQueueWaits / minutes;
+            float waitTimeQueueMinutes = waitTimeQueueWaits % minutes;
+            Console.WriteLine($"Вы должны отстоять в очереди " + (waitTimeQueuehour) + " часа " + (waitTimeQueueMinutes) + " минут ");
+        }
     }
 
     void experienceSecond()
@@ -58,16 +71,30 @@ public class NewBehaviourScript : MonoBehaviour
         int priceCrystal = 50;
 
         Console.WriteLine("How much money do you have?");
-        int money = Convert.ToInt32(Console.ReadLine());
-        Console.WriteLine("Здорово, рад тебя видеть! Ну чё, давай о деле поговорим? Сколько хабара?");
-        int wantBuy = Convert.ToInt32(Console.ReadLine());
-        int howManyBuy = wantBuy * priceCrystal;
-        int howManyStayShop = crystalsHave - wantBuy;
-        int buyCrystalPrice = money - howManyBuy;
-        Console.WriteLine("Мне нужен реальный товар! Ты бы ещё консервных банок принес!");
-        Console.WriteLine($"У Сидоровича осталось кристалов " + (howManyStayShop));
-        Console.WriteLine($"Баланс кошелька " + (buyCrystalPrice));
-        Console.WriteLine($"Баланс хабара " + (wantBuy));
+        string money = Console.ReadLine();
+        if (int.TryParse(money, out int moneyBuyCrystal))
+        {
+            Console.WriteLine("Здорово, рад тебя видеть! Ну чё, давай о деле поговорим? Сколько хабара?");
+        }
+        else
+        {
+            Console.ReadKey();
+        }
+        string wantBuy = Console.ReadLine();
+        if (int.TryParse(wantBuy, out int wantBuyCrystal))
+        {
+            int howManyBuy = wantBuyCrystal * priceCrystal;
+            int howManyStayShop = crystalsHave - wantBuyCrystal;
+            int buyCrystalPrice = moneyBuyCrystal - howManyBuy;
+            Console.WriteLine("Мне нужен реальный товар! Ты бы ещё консервных банок принес!");
+            Console.WriteLine($"У Сидоровича осталось кристалов " + (howManyStayShop));
+            Console.WriteLine($"Баланс кошелька " + (buyCrystalPrice));
+            Console.WriteLine($"Баланс хабара " + (wantBuy));
+        }
+        else
+        {
+            Console.WriteLine("Меченый, я теряю терпения!");
+        }
     }
 
     void experienceThird()
@@ -82,11 +109,9 @@ public class NewBehaviourScript : MonoBehaviour
         string secondName = "Kit ";
         Console.WriteLine($"значения переменных до перестановки " + firstName + secondName);
 
-        string thirdName = firstName;
-        string fourthName = secondName;
-        secondName = thirdName;
-        firstName = fourthName;
-        Console.WriteLine($"значения переменных после " + firstName + secondName);
+        string thirdName = secondName;
+        secondName = firstName;
+        Console.WriteLine($"значения переменных после " + thirdName + secondName);
     }
 
     void experienceFourth()
@@ -123,15 +148,36 @@ public class NewBehaviourScript : MonoBehaviour
 
 
         Console.WriteLine("как вас зовут?");
-        string namePerson = Console.ReadLine();
+        string? namePerson = Console.ReadLine();
+        StringIsDigits(namePerson);
         Console.WriteLine("какой ваш знак зодиака?");
-        string yourZodiacSign = Console.ReadLine();
+        string? yourZodiacSign = Console.ReadLine();
+        StringIsDigits(yourZodiacSign);
         Console.WriteLine("Где вы работаете?");
-        string placeJob = Console.ReadLine();
+        string? placeJob = Console.ReadLine();
+        StringIsDigits(placeJob);
         Console.WriteLine("Сколько вам лет?");
-        int howOldYou = Convert.ToInt32(Console.ReadLine());
+        string howOldYou = Console.ReadLine();
+        if (int.TryParse(howOldYou, out int OldYou))
+        {
+            Console.WriteLine($"Your name " + (namePerson) + " your Zodiac Sign " + (yourZodiacSign)
+                + " place your job " + (placeJob) + " Your Old " + (OldYou));
+        }
+        else
+        {
+            Console.WriteLine("Неизвестная ошибка. Повторите ввод");
+        }
 
-        Console.WriteLine($"Your name " + (namePerson) + " your Zodiac Sign " + (yourZodiacSign)
-            + " place your job " + (placeJob) + " Your Old " + (howOldYou));
+        static bool StringIsDigits(string s)
+        {
+            foreach (var item in s)
+            {
+                if (!char.IsDigit(item))
+                    return false;
+                Console.WriteLine("Недопустимый ввод");
+                Environment.Exit(item);
+            }
+            return true;
+        }
     }
 }
